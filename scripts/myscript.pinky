@@ -1,0 +1,14 @@
+-- Error, no nesting allowed
+func add(a, b)
+  ret a + b
+end
+
+-- Error no local at the global scope
+w := 999 
+for w := 20, 0, -1 do
+  println w
+end
+
+sum := add(2, 5)
+
+println w + " " + sum --> should print 999 because of the shadow

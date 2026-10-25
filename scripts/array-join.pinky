@@ -1,0 +1,12 @@
+func join(array, sep)
+    result := ""
+    arraylen := len(array)
+
+    for i := 0, arraylen - 2 do
+        result := result + array[i] + sep
+    end
+
+    ret result + array[arraylen - 1]
+end
+
+println "{ " + join([1, 2, 3, 4], ", ") +  " }"

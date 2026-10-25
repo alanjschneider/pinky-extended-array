@@ -1,0 +1,28 @@
+func split(str, sep)
+    result := []
+    value := ""
+
+    if sep == "" then
+        for i := 0, len(str) - 1 do
+            push(result, str[i])
+        end
+        ret result
+    end
+
+    for i := 0, len(str) - 1 do
+        if str[i] == sep then
+            push(result, value)
+            value := ""
+        else
+            value := value + str[i]
+        end
+    end
+
+    push(result, value) 
+
+    ret result
+end
+
+println split("Pinky", "")
+println split("1 + 2 * 4", " ")
+println split("a,b,c,d", ",")

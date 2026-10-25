@@ -1,0 +1,81 @@
+/* Pinky's grammar
+ * extracted from https://pinky-lang.org/grammar.html on Tue Sep 29, 2026, 15:11 (UTC-03)
+ */
+
+digit    ::= '0' | '1' | ... | '9'
+upper    ::= 'A' | 'B' | ... | 'Z'
+lower    ::= 'a' | 'b' | ... | 'z'
+alpha    ::= upper
+           | lower
+           | '_'
+alnum    ::= alpha
+           | digit
+bool     ::= 'true'
+           | 'false'
+integer  ::= digit+
+float    ::= integer? '.' integer
+identifier
+         ::= alpha alnum*
+expr     ::= or_logical
+or_logical
+         ::= and_logical ( 'or' and_logical )*
+and_logical
+         ::= equality ( 'and' equality )*
+equality ::= comparison ( ( '~=' | '==' ) comparison )*
+comparison
+         ::= addition ( ( '>' | '>=' | '<' | '<=' ) addition )*
+addition ::= multiplication ( ( '+' | '-' ) multiplication )*
+multiplication
+         ::= modulo ( ( '*' | '/' ) modulo )*
+modulo   ::= unary ( '%' unary )*
+unary    ::= ( '~' | '-' | '+' )* exponent
+exponent ::= postfix ( '^' exponent )* // <= Change primary by postfix
+primary  ::= literal
+           | grouping
+           | funccall
+           | identifier
+literal  ::= bool
+           | integer
+           | float
+           | string
+           | array // <= Add array as literal
+grouping ::= '(' expr ')'
+program  ::= stmts
+stmts    ::= stmt+
+stmt     ::= expr_stmt
+           | print_stmt
+           | assign
+           | local_assign
+           | println_stmt
+           | if_stmt
+           | while_stmt
+           | for_stmt
+           | func_decl
+           | func_call
+           | ret_stmt
+expr_stmt
+         ::= expr
+print_stmt
+         ::= 'print' expr
+println_stmt
+         ::= 'println' expr
+if_stmt  ::= 'if' expr 'then' stmts( 'elif' expr 'then' stmts )*( 'else' stmts )? 'end'
+while_stmt
+         ::= 'while' expr 'do' stmts 'end'
+for_stmt ::= 'for' assign ',' expr ( ',' expr )? 'do' stmts 'end'
+assign   ::= identifier ':=' expr
+local_assign
+         ::= 'local' assign
+func_call
+         ::= identifier '(' args* ')'
+args     ::= expr ( ',' expr )*
+func_decl
+         ::= 'func' func_name '(' params* ')' stmts 'end'
+func_name
+         ::= identifier
+params   ::= identifier ( ',' identifier )*
+ret_stmt ::= 'ret' expr
+
+// Extended: Array
+array    ::= '[' args? ']'
+postfix  ::= primary ( '[' expr ']' )*

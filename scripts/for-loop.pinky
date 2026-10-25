@@ -1,0 +1,5 @@
+i := 999
+for i := 1, 10 do
+  println i
+end
+println i -- 999
