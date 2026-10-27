@@ -22,12 +22,13 @@ class Interpreter:
   def push(self, args):
     _, array = args[0]
     eltype, element = args[1]
-    return (TYPE_NUMBER, array.append((eltype, element)))
+    array.append((eltype, element))
+    return (TYPE_NUMBER, len(array)) # return the new length
 
   # Extended: built-in pop
   def pop(self, args):
     _, array = args[0]
-    return (TYPE_NUMBER, array.pop())
+    return array.pop()
 
   def interpret(self, node, env):
     if isinstance(node, Integer):
